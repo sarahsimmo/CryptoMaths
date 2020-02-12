@@ -23,7 +23,12 @@ def decrypt(cipher_text, key, mode):
 print "\nDES"
 key = hashlib.sha256(password).digest()[:8]
 
-plain_text = Padding.appendPadding(plain_text,blocksize=Padding.DES_blocksize,mode='CMS')
+
+def text_pad(text, pad_mode):
+	return Padding.appendPadding(text, blocksize=Padding.DES_blocksize, mode=pad_mode)
+
+
+plain_text = text_pad(plain_text, 'CMS')
 print "After padding (CMS): "+binascii.hexlify(bytearray(plain_text))
 
 cipher_text = encrypt(plain_text,key,DES.MODE_ECB)
@@ -33,7 +38,7 @@ plain_text = decrypt(cipher_text,key,DES.MODE_ECB)
 plain_text = Padding.removePadding(plain_text,mode='CMS')
 print "  decrypt: "+plain_text
 
-plain_text = Padding.appendPadding(plain_text,blocksize=Padding.DES_blocksize,mode='Null')
+plain_text = text_pad(plain_text, 'Null')
 print "After padding (Null): "+binascii.hexlify(bytearray(plain_text))
 
 cipher_text = encrypt(plain_text,key,DES.MODE_ECB)
@@ -43,7 +48,7 @@ plain_text = decrypt(cipher_text,key,DES.MODE_ECB)
 plain_text = Padding.removePadding(plain_text,mode='Null')
 print "  decrypt: "+plain_text
 
-plain_text = Padding.appendPadding(plain_text,blocksize=Padding.DES_blocksize,mode='Space')
+plain_text = text_pad(plain_text, 'Space')
 print "After padding (Space): "+binascii.hexlify(bytearray(plain_text))
 
 cipher_text = encrypt(plain_text,key,DES.MODE_ECB)
