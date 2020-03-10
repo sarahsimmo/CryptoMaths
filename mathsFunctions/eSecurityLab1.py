@@ -1,4 +1,4 @@
-import base64;
+import base64
 
 #str = b"crypto1"
 #blah = base64.b64encode(str)
